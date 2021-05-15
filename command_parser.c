@@ -31,19 +31,16 @@ flags *parsecommand(int argc, char *argv[])
         {
         case 'e':
             flag->selEf = 1;
-            printf("option %c\n", opt);
             break;
 
         case 'u':
             flag->selUs = 1;
             flag->uid = optarg;
-            printf("option %c\nUID %s", opt, optarg);
             break;
 
         case 'p':
             flag->selPr = 1;
             flag->pid = optarg;
-            printf("option %c\nPID %s\n", opt, optarg);
             break;
 
         case ':':
