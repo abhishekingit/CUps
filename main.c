@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "command_parser.h"
+#include "fetch_process.h"
 
 //the main loop for the program
 int main(int argc, char *argv[])
@@ -21,6 +22,8 @@ int main(int argc, char *argv[])
     if (activeFlags->selEf)
     {
         printf("option e\n");
+        printf("  PID ProcessName\n");
+        fetchProcess();
         return 0;
     }
     else
