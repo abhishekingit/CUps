@@ -22,10 +22,13 @@ int is_pidDir(const struct dirent *somedir)
 int fetchProcess()
 {
     DIR *procf;
-    FILE *fptr;
+    FILE *fptr1;
     struct dirent *dirproc;
-    char path[1024];
+    char path1[1024];
     int pid;
+    int ppid;
+    int sessionid;
+    char procState;
 
     procf = opendir("/proc");
     if (!procf)
@@ -41,18 +44,19 @@ int fetchProcess()
             continue;
         }
 
-        snprintf(path, sizeof(path), "/proc/%s/stat", dirproc->d_name);
-        fptr = fopen(path, "r");
-        if (!fptr)
+        snprintf(path1, sizeof(path1), "/proc/%s/stat", dirproc->d_name);
+        fptr1 = fopen(path1, "r");
+
+        if (!fptr1)
         {
-            perror(path);
+            perror(path1);
             continue;
         }
 
-        fscanf(fptr, "%d %s", &pid, path);
+        fscanf(fptr1, "%d %s %c %d %*d %d ", &pid, path1, &procState, &ppid, &sessionid);
 
-        printf("%5d %-20s\n", pid, path);
-        fclose(fptr);
+        printf("%5d %-15s %-5c %-5d %-5d\n", pid, path1, procState, ppid, sessionid);
+        fclose(fptr1);
     }
     closedir(procf);
     return 0;

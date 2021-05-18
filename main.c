@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     if (activeFlags->selEf)
     {
         printf("option e\n");
-        printf("  PID ProcessName\n");
+        printf("  PID ProcessName   State PPID SESSIONID\n");
         fetchProcess();
         return 0;
     }
