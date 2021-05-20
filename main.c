@@ -50,6 +50,8 @@ int main(int argc, char *argv[])
                 if (activeFlags->pid)
                 {
                     printf("PID %s\n", activeFlags->pid);
+                    printf("  PID ProcessName   State PPID SESSIONID\n");
+                    getProcess(activeFlags->pid);
                     return 0;
                 }
                 else

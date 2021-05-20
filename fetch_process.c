@@ -61,3 +61,52 @@ int fetchProcess()
     closedir(procf);
     return 0;
 }
+
+int getProcess(char *pid)
+{
+    DIR *procf;
+    FILE *fptr1;
+    struct dirent *dirproc;
+    char path[1024];
+    int Filepid;
+    int ppid;
+    int sessionid;
+    char procState;
+    int flag = 0;
+
+    procf = opendir("/proc");
+    if (!procf)
+    {
+        perror("Opening directory failed");
+        return 1;
+    }
+
+    while ((dirproc = readdir(procf)) != NULL)
+    {
+        if (strcmp(dirproc->d_name, pid) == 0)
+        {
+            snprintf(path, sizeof(path), "/proc/%s/stat", pid);
+            fptr1 = fopen(path, "r");
+
+            if (!fptr1)
+            {
+                perror(path);
+                continue;
+            }
+
+            fscanf(fptr1, "%d %s %c %d %*d %d ", &Filepid, path, &procState, &ppid, &sessionid);
+
+            printf("%5d %-15s %-5c %-5d %-5d\n", Filepid, path, procState, ppid, sessionid);
+            fclose(fptr1);
+            flag = 1;
+            break;
+        }
+    }
+    if (flag == 0)
+    {
+        fprintf(stdout, "No processes with PID found\n");
+    }
+
+    closedir(procf);
+    return 0;
+}
