@@ -30,10 +30,18 @@ int main(int argc, char *argv[])
     {
         if (activeFlags->selUs)
         {
+            ProcessList *processNode = NULL;
             printf("option u\n");
             if (activeFlags->uid)
             {
                 printf("UID %s\n", activeFlags->uid);
+                processNode = fetchProcessList();
+                if (processNode == NULL)
+                {
+                    fprintf(stderr, "No current running processes");
+                    return 0;
+                }
+                printPIDList(processNode);
                 return 0;
             }
             else
